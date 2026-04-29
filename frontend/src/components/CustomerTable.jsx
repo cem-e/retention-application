@@ -22,6 +22,7 @@ export default function CustomerTable({
           <tr>
             <th>Merchant</th>
             <th>ID</th>
+
             <th>Country</th>
             <th>Product</th>
             <th>
@@ -39,7 +40,8 @@ export default function CustomerTable({
                 type="button"
                 onClick={() => onSort("transaction_count_last_90_days")}
               >
-                Transactions (90d){getSortIndicator("transaction_count_last_90_days")}
+                Transactions (90d)
+                {getSortIndicator("transaction_count_last_90_days")}
               </button>
             </th>
             <th>
@@ -48,11 +50,16 @@ export default function CustomerTable({
                 type="button"
                 onClick={() => onSort("days_since_last_transaction")}
               >
-                Days Since Last Tx{getSortIndicator("days_since_last_transaction")}
+                Days Since Last Tx
+                {getSortIndicator("days_since_last_transaction")}
               </button>
             </th>
             <th>
-              <button className="table-sort-button" type="button" onClick={() => onSort("status")}>
+              <button
+                className="table-sort-button"
+                type="button"
+                onClick={() => onSort("status")}
+              >
                 Status{getSortIndicator("status")}
               </button>
             </th>

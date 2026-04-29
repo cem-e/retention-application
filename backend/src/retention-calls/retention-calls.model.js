@@ -42,7 +42,4 @@ async function createRetentionCall({
   return rows[0];
 }
 
-export {
-  getRetentionCallsForCustomer,
-  createRetentionCall,
-};
+export { getRetentionCallsForCustomer, createRetentionCall };

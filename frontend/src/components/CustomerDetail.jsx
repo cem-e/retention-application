@@ -14,7 +14,6 @@ export default function CustomerDetail({
 }) {
   const [activeView, setActiveView] = useState("trend");
   const [expandedCallId, setExpandedCallId] = useState(null);
-  const [agentName, setAgentName] = useState("");
   const [outcome, setOutcome] = useState("Reached");
   const [notes, setNotes] = useState("");
   const [submittingCall, setSubmittingCall] = useState(false);
@@ -54,7 +53,6 @@ export default function CustomerDetail({
         },
         body: JSON.stringify({
           customer_id: customerDetail.customer_id,
-          agent_name: agentName,
           outcome,
           notes,
         }),
@@ -67,7 +65,6 @@ export default function CustomerDetail({
       const newCall = await response.json();
       onCallCreated(newCall);
       setExpandedCallId(newCall.id);
-      setAgentName("");
       setNotes("");
       setOutcome("Reached");
     } catch (error) {
@@ -151,24 +148,12 @@ export default function CustomerDetail({
             </dd>
           </div>
           <div>
-            <dt>Contact</dt>
-            <dd>{customerDetail.contact_person}</dd>
+            <dt>Address</dt>
+            <dd>{customerDetail.address || "N/A"}</dd>
           </div>
           <div>
             <dt>Phone</dt>
             <dd>{customerDetail.phone_number}</dd>
-          </div>
-          <div>
-            <dt>Country</dt>
-            <dd>{customerDetail.country}</dd>
-          </div>
-          <div>
-            <dt>Product</dt>
-            <dd>{customerDetail.product_type}</dd>
-          </div>
-          <div>
-            <dt>Days Since Last Transaction</dt>
-            <dd>{customerDetail.days_since_last_transaction}</dd>
           </div>
           <div>
             <dt>Volume (90d)</dt>
@@ -178,25 +163,11 @@ export default function CustomerDetail({
             <dt>Transactions (90d)</dt>
             <dd>{customerDetail.transaction_count_last_90_days}</dd>
           </div>
-          <div className="detail-grid--wide">
-            <dt>Address</dt>
-            <dd>{customerDetail.address}</dd>
-          </div>
         </dl>
 
         <div className="calls-panel">
           <h4>Retention interactions</h4>
           <form className="call-form" onSubmit={handleSubmit}>
-            <label className="call-form-field">
-              <span>Agent</span>
-              <input
-                type="text"
-                value={agentName}
-                onChange={(event) => setAgentName(event.target.value)}
-                placeholder="Enter your name"
-              />
-            </label>
-
             <label className="call-form-field">
               <span>Notes</span>
               <textarea
@@ -247,18 +218,14 @@ export default function CustomerDetail({
                   >
                     <div className="call-item-meta">
                       <strong>{call.outcome}</strong>
-                      <small>{call.agent_name || "Unknown agent"}</small>
                     </div>
                     <span>
                       {new Date(call.call_timestamp).toLocaleString("en-GB")}
                     </span>
                   </button>
-
                   {expandedCallId === call.id && (
                     <div className="call-item-notes">
-                      <strong>Logged by:</strong>{" "}
-                      {call.agent_name || "Unknown agent"}
-                      <br />
+                      <br></br>
                       {call.notes?.trim()
                         ? call.notes
                         : "No notes added for this interaction."}

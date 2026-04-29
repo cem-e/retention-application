@@ -2,14 +2,6 @@
 
 Small internal tool for retention agents to monitor merchant activity, review customer context, and log retention interactions.
 
-## Live Demo
-
-Live app:
-https://flatpay-retention-backend.onrender.com
-
-- Frontend + backend are deployed together on Render
-- PostgreSQL is hosted on Neon
-
 ## Setup
 
 ### 1. Create the database
@@ -43,7 +35,6 @@ CREATE INDEX IF NOT EXISTS idx_retention_calls_merchant_id
 ON retention_calls(merchant_id);
 SQL
 ```
-
 
 ### 4. Install backend dependencies
 
@@ -130,85 +121,3 @@ The project is split into three parts:
 - `frontend/`: React application
 - `backend/`: Express API
 - `database/`: SQL schema and seed data
-
-### Backend
-
-The backend follows a lightweight MVC-style structure with an additional service layer for business logic. It is also organized by feature:
-
-```text
-backend/src/
-├── app.js
-├── index.js
-├── config/
-│   └── db.js
-├── customers/
-│   ├── customers.controller.js
-│   ├── customers.model.js
-│   ├── customers.router.js
-│   └── customers.service.js
-└── retention-calls/
-    ├── retention-calls.controller.js
-    ├── retention-calls.model.js
-    └── retention-calls.router.js
-```
-
-Responsibilities:
-
-- `router`: defines endpoints
-- `controller`: handles request/response flow
-- `model`: runs SQL queries
-- `service`: applies business logic such as customer status classification
-
-The React frontend acts as the view layer.
-
-### Frontend
-
-The frontend uses React Router and is split into:
-
-- `pages/`: page-level state and data fetching
-- `components/`: reusable UI components
-- `router/`: route definitions
-
-Main pages:
-
-- `OverviewPage`
-- `DetailPage`
-
-## Database
-
-The provided seed data includes:
-
-- `dim_customer`
-- `fct_transactions`
-
-The app adds its own table:
-
-- `retention_calls`
-
-Fields used for retention logging:
-
-- `merchant_id`
-- `call_timestamp`
-- `outcome`
-- `notes`
-- `agent_name`
-
-## API Endpoints
-
-- `GET /api/customers`
-- `GET /api/customers/:customerId`
-- `GET /api/retention-calls/:customerId`
-- `POST /api/retention-calls`
-
-## Notes on Data Handling
-
-- `transaction_amount_eur` is displayed as EUR after dividing by `100` for presentation
-- this is based on the observed value distribution in the dataset, which strongly suggests minor-unit storage
-- daily trend data is zero-filled up to the dataset reference date so inactivity periods remain visible in the chart
-
-## Trade-offs
-
-- The biggest trade-off has definitely been to keep the risk logic simple and explainable rather than building a more complex churn model. I considered making At Risk status depend on a 20% decline in transaction count over the last 14 days compared with the previous 14 days, but chose not to use that rule because of the complexity. I believe the the simpler, current classification is easier to understand and defend for this dataset.
-
-- I added an `agent_name` field to `retention_calls` so retention logs are attributable to a specific colleague.
-````

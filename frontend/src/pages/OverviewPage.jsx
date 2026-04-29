@@ -61,10 +61,12 @@ export default function OverviewPage() {
           .filter((customer) => {
             const companyName = customer.company_name.toLowerCase();
             const customerId = String(customer.customer_id);
+            const customerCountry = customer.country.toLowerCase();
 
             return (
               companyName.includes(normalizedQuery) ||
-              customerId.includes(normalizedQuery)
+              customerId.includes(normalizedQuery) ||
+              customerCountry.includes(normalizedQuery)
             );
           })
           .slice(0, 8);
@@ -118,7 +120,8 @@ export default function OverviewPage() {
 
     if (sortConfig.column === "total_volume_last_90_days") {
       comparison =
-        Number(a.total_volume_last_90_days) - Number(b.total_volume_last_90_days);
+        Number(a.total_volume_last_90_days) -
+        Number(b.total_volume_last_90_days);
     }
 
     if (sortConfig.column === "transaction_count_last_90_days") {
@@ -129,7 +132,8 @@ export default function OverviewPage() {
 
     if (sortConfig.column === "days_since_last_transaction") {
       comparison =
-        Number(a.days_since_last_transaction) - Number(b.days_since_last_transaction);
+        Number(a.days_since_last_transaction) -
+        Number(b.days_since_last_transaction);
     }
 
     if (sortConfig.column === "status") {
@@ -148,6 +152,7 @@ export default function OverviewPage() {
       <section className="hero">
         <div className="hero-content">
           <h1>Merchant Dashboard</h1>
+
           <Button onClick={loadCustomers}>
             {loading ? "Loading..." : "Refresh customers"}
           </Button>
@@ -192,7 +197,6 @@ export default function OverviewPage() {
                       onClick={() => handleSearchSelect(customer.customer_id)}
                     >
                       <strong>{customer.company_name}</strong>
-                      <span>{customer.customer_id}</span>
                     </button>
                   </li>
                 ))}
