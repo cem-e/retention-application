@@ -1,4 +1,4 @@
-# Flatpay Retention Dashboard
+# Retention Dashboard
 
 Small internal tool for retention agents to monitor merchant activity, review customer context, and log retention interactions.
 
