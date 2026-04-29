@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import AppRouter from "./router/AppRouter";
-import flatpayLogo from "./assets/flatpay-logo.png";
+import flatpayLogo from "./assets/logo.png";
 
 export default function App() {
   const navigate = useNavigate();
